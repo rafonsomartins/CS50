@@ -1,0 +1,10 @@
+If the aura was determined with the average of the valence, energy and danceability this person would
+have had a pretty excited and happy aura.
+I think, in order to calculate something like an 'aura', we first should collect more data about when the person listened
+to what music and group the music into 'cronological boxes' because it is not possible to a human to be an entire
+year in one mood. Then I think we should give some weight to this different data, like a number between 0 and 1 to
+multiply it by. To do that I think we should ask 500 people to listen to some kind of music and then ask for them to
+explain and characterize the aura/mood they're in. WIth that information and the music they listened to we then use
+a computer to get us "the line that best adjust to our cloud of data", or basically, get us the best numbers to use.
+And then, analysing the 'cronological boxes' of music with our computer-generated estimators, we could describe the
+different auras the spotify user had passed thorough the year. Sorry for the long text ;)

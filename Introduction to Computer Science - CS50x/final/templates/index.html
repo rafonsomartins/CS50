@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block main %}
+
+    {% if lenp == 0 %}
+        <div>No partys to display yet.</div>
+    {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Next Partys</td>
+                    <td></td>
+                    <td>Date (yyyy-mm-dd)</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for party in partys %}
+                    <tr>
+                                <td>{{ party["house_id"]["username"] }}</td>
+                                <td>
+                                    {% if party["allowed"] == "yes" %}
+                                        &#128994;
+                                    {% else %}
+                                        &#128308;
+                                    {% endif %}
+                                </td>
+                                <td>{{ party["date"] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <br>
+
+    {% if lenb == 0 %}
+        <div>No bannes to display.</div>
+    {% else %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>Bannes</td>
+                    <td> Final date (yyyy-mm-dd)</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bann in bannes %}
+                    <tr>
+                                <td>{{ bann[0]["house_id"] }}</td>
+                                <td>{{ bann[0]["final_date"] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}

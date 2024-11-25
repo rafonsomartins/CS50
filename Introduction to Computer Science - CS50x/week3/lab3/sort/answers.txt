@@ -1,0 +1,16 @@
+sort1 uses: bubble sort
+
+How do you know?: really good in the best case cenarios, i.e. sorted files,
+most notable while the size of the data base increases.
+
+sort2 uses: merge sort
+
+How do you know?: keeps a consistent amount of time to files either reversed, sorted or randomized.
+In the bigger sample even takes more time with the sorted file than the other ones (at least in my pc),
+so sorted files don't represent the "best case cenario" because there isn´t one.
+Also is the most efficent in big data bases.
+
+sort3 uses: selection sort
+
+How do you know?: also consistent in every type of organized (or desorganized) file,
+but less effient than the merge sort.

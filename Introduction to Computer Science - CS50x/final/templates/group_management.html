@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ username }} manegement
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+        <thead>
+            <tr>Members</tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+                <tr>
+                    <td>{{ member['username'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td>
+                    <form action="/group_management/{{ username }}/{{ sn }}" method="post">
+                        <button type="submit" name="add_member" id="add_member" value="1">Add member</button>
+                    <form>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form action="/group_management/{{ username }}/{{ sn }}" method="post">
+                        <button type="submit" name="leave_group" id="leave_group" value="1">Leave Group</button>
+                    </form>
+                </td>
+            <tr>
+        </tfoot>
+    </table>
+{% endblock %}

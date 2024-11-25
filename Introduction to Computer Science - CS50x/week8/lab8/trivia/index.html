@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+        <script>
+            // TODO: Add code to check answers to questions
+            document.addEventListener('DOMContentLoaded', function(){
+                let correct0 = document.querySelector('.correct0');
+                correct0.addEventListener('click', function(){
+                    correct0.style.backgroundColor = 'green';
+                    document.querySelector('#feedback_closedquestion0').innerHTML = 'Correct!';
+                });
+                let incorrects0 = document.querySelectorAll('.incorrect0');
+                for (let i = 0; i < incorrects0.length; i++) {
+                    incorrects0[i].addEventListener('click', function(){
+                        incorrects0[i].style.backgroundColor = 'red';
+                        document.querySelector('#feedback_closedquestion0').innerHTML = 'Incorrect.';
+                    });
+                }
+
+                let correct1 = document.querySelector('.correct1');
+                correct1.addEventListener('click', function(){
+                    correct1.style.backgroundColor = 'green';
+                    document.querySelector('#feedback_closedquestion1').innerHTML = 'Correct!';
+                });
+                let incorrects1 = document.querySelectorAll('.incorrect1');
+                for (let i = 0; i < incorrects1.length; i++) {
+                    incorrects1[i].addEventListener('click', function(){
+                        incorrects1[i].style.backgroundColor = 'red';
+                        document.querySelector('#feedback_closedquestion1').innerHTML = 'Incorrect.';
+                    });
+                }
+
+                let correct2 = document.querySelector('.correct2');
+                correct2.addEventListener('click', function(){
+                    correct2.style.backgroundColor = 'green';
+                    document.querySelector('#feedback_closedquestion2').innerHTML = 'Correct!';
+                });
+                let incorrects2 = document.querySelectorAll('.incorrect2');
+                for (let i = 0; i < incorrects2.length; i++) {
+                    incorrects2[i].addEventListener('click', function(){
+                        incorrects2[i].style.backgroundColor = 'red';
+                        document.querySelector('#feedback_closedquestion2').innerHTML = 'Incorrect.';
+                    });
+                }
+
+
+                document.querySelector('#check').addEventListener('click', function(){
+                    let input = document.querySelector('input');
+                    if (input.value == 'Paris'){
+                        input.style.backgroundColor = 'green';
+                        document.querySelector('#feedback_openquestion').innerHTML = 'Correct!';
+                    } else {
+                        input.style.backgroundColor = 'red';
+                        document.querySelector('#feedback_openquestion').innerHTML = 'Incorrect.';
+                    }
+
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+                <!-- TODO: Add multiple choice question here -->
+                <h3 >In 2022 what were the most common baby names in the USA?
+
+                <br>
+
+                <button class="incorrect0">Emma and Donald</button>
+                <button class="incorrect0">Charlotte and Oliver</button>
+                <button class="correct0">Olivia and Liam</button>
+                <button class="incorrect0">Burgers and Guns</button>
+
+                <p id="feedback_closedquestion0"></p>
+
+                <br>
+
+                Who was the first king of Portugal?
+
+                <br>
+
+                <button class="incorrect1">João I</button>
+                <button class="incorrect1">Filipe I</button>
+                <button class="incorrect1">Luís II</button>
+                <button class="correct1">Afonso I</button>
+                <p id="feedback_closedquestion1"></p>
+
+                <br>
+
+                Where is what city can we see the Islamic mausoleum Taj Mahal?
+
+                <br>
+
+                <button class="correct2">Agra</button>
+                <button class="incorrect2">Asgabate</button>
+                <button class="incorrect2">Manila</button>
+                <button class="incorrect2">Italy</button>
+
+                <p id="feedback_closedquestion2"></p>
+
+                </h3>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+                <!-- TODO: Add free response question here -->
+                <h3>Where is the Eiffel Tower?</h3>
+                <input type="text"></input>
+                <button id="check">Check Answer</button>
+
+                <p id="feedback_openquestion"></p>
+            </div>
+        </div>
+    </body>
+</html>

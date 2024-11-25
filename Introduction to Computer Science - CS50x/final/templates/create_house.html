@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Create House
+{% endblock %}
+
+{% block main %}
+    <h1>
+        <form action="/create_house" method="post">
+            <input class="form-control mx-auto w-auto" id="house_username" name="house_username" placeholder="House Name" type="text" required>
+            <button class="btn btn-primary" type="submit">Create House</button>
+        </form>
+    </h1>
+{% endblock %}
