@@ -125,8 +125,6 @@ class Sentence():
         if cell in self.cells:
             self.cells.remove(cell)
             self.count -= 1
-        # if self.count > len(self.cells):
-        #     raise ValueError
 
     def mark_safe(self, cell):
         """
@@ -135,9 +133,6 @@ class Sentence():
         """
         if cell in self.cells:
             self.cells.remove(cell)
-        # if self.count > len(self.cells):
-        #     print(f"{self.cells} = {self.count}")
-        #     raise ValueError
 
 
 class MinesweeperAI():
@@ -179,7 +174,7 @@ class MinesweeperAI():
         for sentence in self.knowledge:
             sentence.mark_safe(cell)
 
-    def get_neighbors(self, cell):
+    def get_neighbors(self, cell, count):
         neighbors = []
         i, j = cell
         for di in [-1, 0, 1]:
@@ -189,8 +184,11 @@ class MinesweeperAI():
                 ni, nj = i + di, j + dj
                 if 0 <= ni < self.height and 0 <= nj < self.width:
                     if (ni, nj) not in self.moves_made and (ni, nj) not in self.safes:
+                        if (ni, nj) in self.mines:
+                            count -= 1
+                            continue
                         neighbors.append((ni, nj))
-        return neighbors
+        return neighbors, count
 
     def add_knowledge(self, cell, count):
         """
@@ -209,24 +207,20 @@ class MinesweeperAI():
         """
         self.moves_made.add(cell)
         self.mark_safe(cell)
-        neighbors = self.get_neighbors(cell)
-        mines = [cell for cell in neighbors if cell in self.mines]
-        count -= len(mines)
-        self.knowledge.append(Sentence(list(set(neighbors) - set(mines)), count))
+        neighbors, count = self.get_neighbors(cell, count)
+        self.knowledge.append(Sentence(neighbors, count))
         changed = True
         while (changed):
             changed = False
             for sentence in self.knowledge:
-                safes = sentence.known_safes()
+                safes = sentence.known_safes().copy()
                 if safes:
-                    self.knowledge.remove(sentence)
                     for safe in safes:
                         self.mark_safe(safe)
                     changed = True
                     continue
-                mines = sentence.known_mines()
+                mines = sentence.known_mines().copy()
                 if mines:
-                    self.knowledge.remove(sentence)
                     for mine in mines:
                         self.mark_mine(mine)
                     changed = True
