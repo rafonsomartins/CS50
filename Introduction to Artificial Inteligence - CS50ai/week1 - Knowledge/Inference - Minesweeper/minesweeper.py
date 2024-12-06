@@ -122,19 +122,22 @@ class Sentence():
         Updates internal knowledge representation given the fact that
         a cell is known to be a mine.
         """
-        self.cells.remove(cell)
+        if cell in self.cells:
+            self.cells.remove(cell)
         self.count -= 1
-        if self.count > len(self.cells):
-            raise ValueError
+        # if self.count > len(self.cells):
+        #     raise ValueError
 
     def mark_safe(self, cell):
         """
         Updates internal knowledge representation given the fact that
         a cell is known to be safe.
         """
-        self.cells.remove(cell)
-        if self.count > len(self.cells):
-            raise ValueError
+        if cell in self.cells:
+            self.cells.remove(cell)
+        # if self.count > len(self.cells):
+        #     print(f"{self.cells} = {self.count}")
+        #     raise ValueError
 
 
 class MinesweeperAI():
@@ -176,6 +179,19 @@ class MinesweeperAI():
         for sentence in self.knowledge:
             sentence.mark_safe(cell)
 
+    def get_neighbors(self, cell):
+        neighbors = []
+        i, j = cell
+        for di in [-1, 0, 1]:
+            for dj in [-1, 0, 1]:
+                if di == 0 and dj == 0:
+                    continue
+                ni, nj = i + di, j + dj
+                if 0 <= ni < self.height and 0 <= nj < self.width:
+                    if (ni, nj) not in self.moves_made and (ni, nj) not in self.safes:
+                        neighbors.append((ni, nj))
+        return neighbors
+
     def add_knowledge(self, cell, count):
         """
         Called when the Minesweeper board tells us, for a given
@@ -191,7 +207,36 @@ class MinesweeperAI():
             5) add any new sentences to the AI's knowledge base
                if they can be inferred from existing knowledge
         """
-        raise NotImplementedError
+        self.moves_made.add(cell)
+        self.mark_safe(cell)
+        neighbors = self.get_neighbors(cell)
+        print(f"count: {count}")
+        self.knowledge.append(Sentence(neighbors, count))
+        print("knowledge:")
+        for sentence in self.knowledge:
+            print(sentence)
+            safes = sentence.known_safes()
+            if safes:
+                self.knowledge.remove(sentence)
+                for safe in safes:
+                    self.mark_safe(safe)
+                    print(f"mark_safe({safe})")
+                continue
+            mines = sentence.known_mines()
+            if mines:
+                self.knowledge.remove(sentence)
+                for mine in mines:
+                    self.mark_mine(mine)
+                    print(f"mark_mine({mine})")
+                continue
+            for sub in self.knowledge:
+                if sub.cells == sentence.cells:
+                    continue
+                if sub.cells in sentence.cells:
+                    new_cells = sentence.cells.copy()
+                    new_cells.remove(sub.cells)
+                    self.knowledge.append(Sentence((new_cells, (sentence.cells - sub.cells))))
+        print(f"safes: {self.safes}")
 
     def make_safe_move(self):
         """
@@ -202,7 +247,11 @@ class MinesweeperAI():
         This function may use the knowledge in self.mines, self.safes
         and self.moves_made, but should not modify any of those values.
         """
-        raise NotImplementedError
+        safe_cells = self.safes - self.moves_made
+        if safe_cells:
+            return random.choice(list(safe_cells))
+        else:
+            return None
 
     def make_random_move(self):
         """
@@ -211,4 +260,9 @@ class MinesweeperAI():
             1) have not already been chosen, and
             2) are not known to be mines
         """
-        raise NotImplementedError
+        all_cells = set(itertools.product(range(self.height), range(self.width)))
+        possible_moves = all_cells - self.mines - self.moves_made
+        if possible_moves:
+            return random.choice(list(possible_moves))
+        else:
+            return None
