@@ -57,7 +57,7 @@ def transition_model(corpus, page, damping_factor):
     linked to by `page`. With probability `1 - damping_factor`, choose
     a link at random chosen from all pages in the corpus.
     """
-    if random.choice(range(1, 101)) <= (damping_factor * 100):
+    if random.choice(range(1, 101)) <= (damping_factor * 100) and len(corpus[page]):
         return list(corpus[page])[random.choice(range(0, len(corpus[page])))]
     return list(corpus)[random.choice(range(0, len(corpus)))]
 
@@ -71,12 +71,11 @@ def sample_pagerank(corpus, damping_factor, n):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    ranks = dict()
-    corpus_temp = list(corpus)
-    for cor in corpus_temp:
-        ranks[cor] = 0
+    ranks = {page: 0 for page in corpus}
+    page = list(corpus)[random.choice(range(0, len(corpus)))]
     for _ in range(n):
-        ranks[transition_model(corpus, "1.html", damping_factor)] += 1
+        page = transition_model(corpus, page, damping_factor)
+        ranks[page] += 1
     for rank in ranks:
         ranks[rank] /= n
     return ranks
@@ -91,8 +90,22 @@ def iterate_pagerank(corpus, damping_factor):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    print(transition_model(corpus, "1.html", damping_factor))
-    return dict([("1.html", 4)])
+    n = len(corpus)
+    ranks = {page: 1 / n for page in corpus}
+    converged = False
+    while not converged:
+        new_ranks = {}
+        for page in corpus:
+            rank = ((1 - damping_factor) / n)
+            for possible_linker in corpus:
+                if page in corpus[possible_linker]:
+                    rank += damping_factor * (ranks[possible_linker] / len(corpus[possible_linker]))
+            new_ranks[page] = rank
+        converged = all(abs(new_ranks[page] - ranks[page]) < 0.001 for page in corpus)
+        ranks = new_ranks
+    total = sum(ranks.values())
+    ranks = {page: rank / total for page, rank in ranks.items()}
+    return ranks
 
 
 if __name__ == "__main__":
