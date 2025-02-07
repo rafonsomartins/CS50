@@ -1,5 +1,6 @@
 import nltk
 import sys
+import re
 
 TERMINALS = """
 Adj -> "country" | "dreadful" | "enigmatical" | "little" | "moist" | "red"
@@ -74,6 +75,8 @@ def preprocess(sentence):
 	words = sentence.split(' ')
 	for word in words:
 		word = word.lower()
+		if not re.search(r'[a-zA-Z]', word):
+			continue
 		res.append(word)
 	return res
 
