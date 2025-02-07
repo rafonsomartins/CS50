@@ -75,9 +75,9 @@ def preprocess(sentence):
 	words = sentence.split(' ')
 	for word in words:
 		word = word.lower()
-		if not re.search(r'[a-zA-Z]', word):
-			continue
-		res.append(word)
+		word = re.sub(r'[^a-z]', '', word)
+		if word:
+			res.append(word)
 	return res
 
 
