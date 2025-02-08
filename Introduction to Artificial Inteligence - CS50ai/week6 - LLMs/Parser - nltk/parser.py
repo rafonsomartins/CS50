@@ -22,8 +22,8 @@ NP -> NC | Det NC
 NC -> N | Adj NC
 
 VP -> VI | Adv VI | VI Adv
-VI -> VC | VC Conj VC
-VC -> V | V P NP | V NP 
+VI -> VC | VC Conj VC 
+VC -> V | VC P NP | VC NP 
 """
 
 grammar = nltk.CFG.fromstring(NONTERMINALS + TERMINALS)
@@ -43,6 +43,7 @@ def main():
 
 	# Convert input into list of words
 	s = preprocess(s)
+	print(s)
 
 	# Attempt to parse sentence
 	try:
